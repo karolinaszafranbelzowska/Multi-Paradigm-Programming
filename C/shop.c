@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 // to compile and print shop.c in Command Prompt I have to type the following:
 // gcc -o shop shop.c
@@ -53,7 +54,8 @@ struct Shop // Shop Struct for shop infomations
 
 
 // ================================================================================================================================================================================
-// printProduct() and printProduct2 functions will be used to print product informations
+
+// printProduct() and printProduct2() functions will be used to print product informations
 void printProduct(struct Product p)
 {
 	printf(" Product : %s \n Price   : %.2f\n ", p.name, p.price); // Print the product name and its price. 
@@ -67,15 +69,14 @@ void printProduct2(struct Product p)
 
 // ================================================================================================================================================================================
 
-
-
-void printCustomer(struct Customer c, struct Shop s)	// Two Structs will be used  in function printCustomer
+// printCustomer() will be used to print customer's informations
+void printCustomer(struct Customer c, struct Shop s)	// Two Structs will be used  in function printCustomer (data types)
 {
-	printf("\nCustomer name   : %s \nCustomer budget : %.2f\n", c.name, c.budget); // Print customer's name and budget
+	printf("\nCustomer name   : %s \nCustomer budget : %.2f\n", c.name, c.budget); // Prints customer's name and budget, when you press 3rd option in the Menu selection
 	printf("====================================\n");
 	printf("\n");
 
-	double sum = 0;
+	double sum = 0; // sum of customer's shopping
 
 	for (int i = 0; i < c.index; i++) // Start loop through each of the items in the shopping list 
 	{
@@ -84,9 +85,9 @@ void printCustomer(struct Customer c, struct Shop s)	// Two Structs will be used
 			
 		printProduct2(c.shoppingList[i].product); // Print the product informations
 
-		printf("Quantity: %d\n\n", c.shoppingList[i].quantity); // Print how much of each item the customer wants
+		printf("Quantity: %d\n\n", c.shoppingList[i].quantity); // Prints how many of each item the customer wants
 		
-		if (cQuantity > sQuantity) // if the customer order is more than the shop quantity then display message below.
+		if (cQuantity > sQuantity) // if the customer's order is more than the shop quantity then display message below.
 		{
 			printf("Not enough in the shop, Appologize for any inconvenience caused\n");
 		}
@@ -100,12 +101,12 @@ void printCustomer(struct Customer c, struct Shop s)	// Two Structs will be used
 
 	}
 	
-	// Print the total cost of the customer items
-	printf("Total cost = %.2f\n", sum);
+	printf("Total to pay by customer = %.2f\n", sum); // this information will be printed at the end and will show how much customer needs to pay for her shopping
 
-	// Once all the customer items are added, minus from the budget
-	printf("Budget balance = %.2f\n", c.budget - sum);
+	printf("Budget left = %.2f\n", c.budget - sum); // this will show how much money left in the customer's pocket
 }
+
+// ===========================================================================================================================================================================
 
 
 void printShop(struct Shop s) // option no 1 in the Menu
@@ -295,79 +296,93 @@ struct Shop createAndStockShop()
 	return shop;
 }
 
-void reviewOrder(struct Shop s, struct Customer c)
+// ==========================================================================================================================================================================
+
+// OrderContent() will print Customer's shopping list via stock available in the Shop
+void orderContent(struct Shop s, struct Customer c) // data types - structs
 {
-	printf("\n\n\n-------------------------------------\n   Customer's shopping list \n-------------------------------------\n \n");
+	printf("\n\n\n-------------------------------------\n *** Customer's shopping list ***\n-------------------------------------\n \n");
 	printf("\n");
 
-	// THis for loop will print the customers shopping list
-	for (int i = 0; i < c.index; i++)
+	for (int i = 0; i < c.index; i++) // 'for' loop will print the customers shopping list
 	{
-		printf("%3i. %s", i, c.shoppingList[i].product.name);
-		printf(" Quantity = %d\n", c.shoppingList[i].quantity);
+		printf("%4i. %s", i, c.shoppingList[i].product.name); // 2nd option in the Menu selection will print name of the product in the customer's shopping list.
+		printf(" Quantity = %d\n", c.shoppingList[i].quantity); // When you press 2nd option in Menu selection, this quantity will be given as output.
 		printf("------------------------------------\n");
 	}
-	printf("\n\n\n-------------------------------------\n   Stock available in the Shop \n-------------------------------------\n \n");
+	printf("\n\n\n-------------------------------------\n  *** Stock available in the Shop ***\n-------------------------------------\n \n");
 	printf("\n");
 	
-	// This for loop will print the shops stock
-	// This will look at the customer order and dieplay if they have it or not
-	for (int i = 0; i < c.index; i++)
+	
+	for (int i = 0; i < c.index; i++) // 'for' loop will print the stock available in the Shop
 	{
-		printf("%3i. %s", i, s.stock[i].product.name);
-		printf(" QUANTITY = %d\n", s.stock[i].quantity);
+		printf("%4i. %s", i, s.stock[i].product.name); // 2nd option in the Menu selection will print name of the product available in the shop.
+		printf(" Quantity = %d\n", s.stock[i].quantity); // When you press 2nd option in Menu selection, this quantity will be given as output.
 		printf("------------------------------------\n");
 	}
 }
 
-void checkOrder(struct Shop s, struct Customer c)
+// ===========================================================================================================================================================================
+
+
+void checkProductStock(struct Shop s, struct Customer c)
 {
-	for (int i = 0; i < c.index; i++)
+	// double total = 0;
+	for (int i = 0; i < c.index; i++) // 'for' loop will go through all items in the shopping list.
 	{
-		short curStock = 0;
+		short inStock = 0;
 
-		char *ord = malloc(sizeof(char) *50);
+		char *ord = malloc(sizeof(char) *25);
 
-		// Copy string 
-		strcpy(ord, c.shoppingList[i].product.name); // https://www.tutorialspoint.com/c_standard_library/c_function_strcpy.htm
+		 
+		strcpy(ord, c.shoppingList[i].product.name); 
 
-		for (int i = 0; i < s.index; i++)
+		for (int i = 0; i < s.index; i++) // inner 'for' loop through the shop
 		{
-			char *shop = malloc(sizeof(char) *50);
+			char *shop = malloc(sizeof(char) *25);
 			
-			// Copy String
-			strcpy(shop, s.stock[i].product.name); // https://www.tutorialspoint.com/c_standard_library/c_function_strcpy.htm
-
+			strcpy(shop, s.stock[i].product.name); 
 			int sh;
 
 			// Check if the stock is in the shopList
 			// If True add else desplay error
 			if (strstr(ord, shop) != NULL)
 			{
-				curStock = 1;
-				printf("\nITEM FOUND IN SHOP:%s\n", shop);
+				inStock = 1;
+				printf("\nIn Stock: %s\n", shop);
 
-				int shopQuant = s.stock[i].quantity;
-				int cusQuant = c.shoppingList[i].quantity;
+				int sq = c.shoppingList[i].quantity;
+				int cq = s.stock[i].quantity;
+
+				double price = s.stock[i].product.price;
 				
 				// if the customer order is less than the shop quantity then display message
-				if (cusQuant < shopQuant)
+				if (sq < cq)
 				{
-					printf("ITEM ADDED\n");
+					printf("Product added\n");
+					// printf("%s x %i @ %.2f\n",shop, sq, price);
+					// if the order can be filled, remove the item from the shop stock
+					// s.stock[i].quantity-=sq;//reduce the shop stock
+					// s.cash+=(s.stock[i].product.price*sq);//increase the shop cash
+					// total+=(sq*price);
 				}
 				
 				// If greater then display error message
-				else
-				{
-					printf("NOT ENOUGH %s IN SHOP\n", shop);
-				}
+			else{
+				printf("Not enough %s in the Shop\n", shop);
+					// printf(" %s x %i @ %.2f , %i short\n",shop, cq, price, sq-cq);
+					// s.stock[i].quantity-=cq;
+					// s.cash+=(s.stock[i].product.price*cq);
+					// total+=(cq*price);
+			}
+			
 			}
 			
 			//reached the end of the list and item was not found
-			if (i == s.index - 1 &!curStock)
+			if (i == s.index - 1 &!inStock)
 			{
 				//shopping list item is not is shop
-				printf("\nITEM NOT FOUND IN SHOP:\t%s\n", ord);
+				printf("\nOut of stock:\t%s\n", ord);
 			}
 		}
 	}
@@ -375,6 +390,8 @@ void checkOrder(struct Shop s, struct Customer c)
 	return;
 
 }
+
+// ==================================================================================================================================================
 
 void stockAndCashArranging(struct Shop s, struct Customer c)
 {
@@ -559,7 +576,7 @@ void output(float);
 
 int main()
 {
-	printf("\n\n\n-----------------------------------------\n   WELCOME TO THE KAROLINA's C SHOP \n-----------------------------------------\n \n");
+	printf("\n\n\n-----------------------------------------\n         WELCOME TO THE C SHOP \n-----------------------------------------\n \n");
 	printf("***  Guarantee of successful shopping  *** \n-----------------------------------------");
 	
 	struct Shop shop = createAndStockShop();
@@ -580,11 +597,11 @@ int main()
 
 		printf(" * 3 - Show the customer order and calculate cost\n");
 
-		printf(" * 4 - Show if the Shop has customer's order\n");
+		printf(" * 4 - Show if the Shop has items that customer wants\n");
 
 		printf(" * 5 - Update Shop's stock\n");
 		
-		printf(" * 6 - LIVE SHOP mode\n");
+		printf(" * 6 - LIVE Shop mode\n");
 
 		printf(" * 7 - Exit\n\n");
 
@@ -604,7 +621,7 @@ int main()
 			case 2:
 
 				{
-					reviewOrder(shop, order);
+					orderContent(shop, order);
 					break;
 				}
 
@@ -618,7 +635,7 @@ int main()
 			case 4:
 
 				{
-					checkOrder(shop, order);
+					checkProductStock(shop, order);
 					break;
 				}
 
@@ -664,3 +681,4 @@ int input()
 
 // https://cboard.cprogramming.com/c-programming/78794-char-*name.html 15/11/2020
 // https://beginnersbook.com/2014/01/c-arrays-example/
+// https://knot.readthedocs.io/en/latest/reference.html, 16/11/2020
