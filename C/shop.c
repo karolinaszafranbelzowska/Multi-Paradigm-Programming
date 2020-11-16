@@ -45,13 +45,14 @@ struct Shop // Shop Struct for shop infomations
 
 
 
-// ================================================================================================================================================================================
 
 // Void when used as a function return type, the void keyword specifies that the function does not return a value.
 // Void does not provide a result value to its caller. Those functions are called for their side effects, such as performing some task or writing to their output parameters.
 // https://docs.microsoft.com/en-us/cpp/cpp/void-cpp?view=msvc-160, 15/11/2020
 // https://en.wikipedia.org/wiki/Void_type, 15/11/2020
 
+
+// ================================================================================================================================================================================
 // printProduct() and printProduct2 functions will be used to print product informations
 void printProduct(struct Product p)
 {
