@@ -75,17 +75,15 @@ void printCustomer(struct Customer c, struct Shop s)	// Two Structs will be used
 			
 		printProduct2(c.shoppingList[i].product); // Print the product informations
 
-		// Print how much of each item the customer wants
-		printf("Quantity: %d\n\n", c.shoppingList[i].quantity);
+		printf("Quantity: %d\n\n", c.shoppingList[i].quantity); // Print how much of each item the customer wants
 		
 		if (cQuantity > sQuantity) // if the customer order is more than the shop quantity then display message below.
 		{
 			printf("Not enough in the shop, Appologize for any inconvenience caused\n");
 		}
-		//HERE/HERE
+		
 		else{	
-		// Find total customer cost and store in Var total
-		double total = c.shoppingList[i].quantity *c.shoppingList[i].product.price;
+		double total = c.shoppingList[i].quantity *c.shoppingList[i].product.price; // total customer's cost
 		sum = sum + total;
 		}
 		
@@ -94,10 +92,10 @@ void printCustomer(struct Customer c, struct Shop s)	// Two Structs will be used
 	}
 	
 	// Print the total cost of the customer items
-	printf("TOTAL COST     = %.2f\n", sum);
+	printf("Total cost = %.2f\n", sum);
 
 	// Once all the customer items are added, minus from the budget
-	printf("BUDGET BALANCE = %.2f\n", c.budget - sum);
+	printf("Budget balance = %.2f\n", c.budget - sum);
 }
 
 void printShop(struct Shop s) 
@@ -290,9 +288,8 @@ struct Shop createAndStockShop()
 
 void reviewOrder(struct Shop s, struct Customer c)
 {
-	printf("\n  CUSTOMER ORDER REVIEW \n");
-	printf("------------------------------------\n");
-	printf("------------------------------------\n");
+	printf("\n\n\n-------------------------------------\n   Customer's shopping list \n-------------------------------------\n \n");
+	printf("\n");
 
 	// THis for loop will print the customers shopping list
 	for (int i = 0; i < c.index; i++)
@@ -301,10 +298,8 @@ void reviewOrder(struct Shop s, struct Customer c)
 		printf(" Quantity = %d\n", c.shoppingList[i].quantity);
 		printf("------------------------------------\n");
 	}
-
-	printf("\n\n\n  SHOP STOCK REVIEW \n");
-	printf("------------------------------------\n");
-	printf("------------------------------------\n");
+	printf("\n\n\n-------------------------------------\n   Stock available in the Shop \n-------------------------------------\n \n");
+	printf("\n");
 	
 	// This for loop will print the shops stock
 	// This will look at the customer order and dieplay if they have it or not
@@ -555,35 +550,36 @@ void output(float);
 
 int main()
 {
-	printf("\n\n\n******* WELCOME TO THE SHOP ********\n");
-
+	printf("\n\n\n-----------------------------------------\n   WELCOME TO THE KAROLINA's C SHOP \n-----------------------------------------\n \n");
+	printf("***  Guarantee of successful shopping  *** \n-----------------------------------------");
+	
 	struct Shop shop = createAndStockShop();
 
 	struct Customer order = cusOrder();
 
 	float result;
 
-	int choice, num;	  
+	int choice, num; // Keep showing the menu until the user wants exit (7) 
 				   
-
+	// Menu selection items, options given to the customers.
 	do {
-		printf("\n\nPLEASE SELECT ONE OF THE FOLLOWING OPTIONS");
+		printf("\n\nPlease select one of the following options given below:");
 		
-		printf("\n\n * PRESS 1 TO VIEW THE SHOPS CONTENTS\n");
+		printf("\n\n * 1 - Show current Shop contents\n");
 
-		printf(" * PRESS 2 TO VIEW THE SHOP AND ORDER CONTENTS\n");
+		printf(" * 2 - Show the Shop and order content\n");
 
-		printf(" * PRESS 3 TO VIEW THE CUSTOMER ORDER CONTENTS AND CALCULATE COST\n");
+		printf(" * 3 - Show the customer order and calculate cost\n");
 
-		printf(" * PRESS 4 TO CONFIRM IF SHOP HAS YOUR ORDER\n");
+		printf(" * 4 - Show if the Shop has customer's order\n");
 
-		printf(" * PRESS 5 UPDATED SHOP\n");
+		printf(" * 5 - Update Shop's stock\n");
 		
-		printf(" * PRESS 6 TO USE LIVE SHOP MODE\n");
+		printf(" * 6 - LIVE SHOP mode\n");
 
-		printf(" * PRESS 7 TO EXIT\n\n");
+		printf(" * 7 - Exit\n\n");
 
-		printf("ENTER YOUR CHOICE : ");
+		printf("Please enter your choice: ");
 
 		choice = input();
 
