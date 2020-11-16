@@ -44,21 +44,29 @@ struct Shop // Shop Struct for shop infomations
 };
 
 
+
+// ================================================================================================================================================================================
+
 // Void when used as a function return type, the void keyword specifies that the function does not return a value.
 // Void does not provide a result value to its caller. Those functions are called for their side effects, such as performing some task or writing to their output parameters.
 // https://docs.microsoft.com/en-us/cpp/cpp/void-cpp?view=msvc-160, 15/11/2020
 // https://en.wikipedia.org/wiki/Void_type, 15/11/2020
 
+// printProduct() and printProduct2 functions will be used to print product informations
 void printProduct(struct Product p)
 {
 	printf(" Product : %s \n Price   : %.2f\n ", p.name, p.price); // Print the product name and its price. 
-}
+}                                                                  // When you press 1st option in the Menu selection, this name and price will be given as output. 
 
 
 void printProduct2(struct Product p)
 {
-	printf("Product : %s  \n", p.name); //Print just the product 
+	printf("Product : %s  \n", p.name); //Print just the product's name
 }
+
+// ================================================================================================================================================================================
+
+
 
 void printCustomer(struct Customer c, struct Shop s)	// Two Structs will be used  in function printCustomer
 {
@@ -98,23 +106,23 @@ void printCustomer(struct Customer c, struct Shop s)	// Two Structs will be used
 	printf("Budget balance = %.2f\n", c.budget - sum);
 }
 
-void printShop(struct Shop s) 
+
+void printShop(struct Shop s) // option no 1 in the Menu
 {
-	printf("------------------------------------\n");
+	printf("\n");
+	printf("--------------------------------------------------\n");
+	printf("Cash in the Shop: EUR %.2f \n", s.cash); // print how much cash Store has in cash. Taken from stock.csv file
+	printf("--------------------------------------------------\n");
+	printf("Credit/Debit card payments acceptable in this Shop\n"); // just to inform customers that card payments are avilable
+	printf("--------------------------------------------------\n");
+	printf("\n");
+	printf("\n");
 
-	// Print the cash that is stored in the shop CSV file
-	printf("SHOP HAS %.2f in cash\n", s.cash);
-
-	printf("------------------------------------\n");
-
-	printf("------------------------------------\n");
-
-	// For loop that displays the stock details (Item, Quantity, Cost)
-	for (int i = 0; i < s.index; i++)
+	for (int i = 0; i < s.index; i++) // 'for' loop displays the stock details to the output
 	{
 		printProduct(s.stock[i].product);
 
-		printf("QUANTITY: %d\n", s.stock[i].quantity);
+		printf("Quantity: %d\n", s.stock[i].quantity); // When you press 1st option in Menu selection, this quantity will be given as output.
 
 		printf("------------------------------------\n");
 
