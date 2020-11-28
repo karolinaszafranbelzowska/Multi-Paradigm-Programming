@@ -1,6 +1,13 @@
+# Karolina Szafran - Belzowska, November 2020
+# Project Multi Paradigm Programming, Shop Assignment
+
+# call libraries in Python
 from dataclasses import dataclass, field
 from typing import List
 import csv
+
+# to print shop.py in Command Prompt I have to type the following:
+# python shop.py
 
 @dataclass
 class Product:
@@ -25,7 +32,7 @@ class Customer:
 
 def create_and_stock_shop():
     s = Shop()
-    with open('../stock.csv') as csv_file:
+    with open('stock1.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         first_row = next(csv_reader)
         s.cash = float(first_row[0])
@@ -33,7 +40,7 @@ def create_and_stock_shop():
             p = Product(row[0], float(row[1]))
             ps = ProductStock(p, float(row[2]))
             s.stock.append(ps)
-            #print(ps)
+            # print(ps)
     return s
     
 def read_customer(file_path):
@@ -51,26 +58,40 @@ def read_customer(file_path):
         
 
 def print_product(p):
-    print(f'\nPRODUCT NAME: {p.name} \nPRODUCT PRICE: {p.price}')
+    print(f'\nProduct name: {p.name} \nProduct price: {p.price}')
+
 
 def print_customer(c):
-    print(f'CUSTOMER NAME: {c.name} \nCUSTOMER BUDGET: {c.budget}')
-    
+    print(f'======================================================')
+    print(f'======================================================\n')
+    print(f'Customer name: {c.name} \nCustomer budget: {c.budget}')
+    print(f'------------------------------\n')
     for item in c.shopping_list:
         print_product(item.product)
         
-        print(f'{c.name} ORDERS {item.quantity} OF ABOVE PRODUCT')
+        print(f'The customer wants {item.quantity} of above product')
+        
         cost = item.quantity * item.product.price
-        print(f'The cost to {c.name} will be €{cost}')
+        print(f'The cost to {c.name} will be EUR {cost}')
         
 def print_shop(s):
-    print(f'Shop has {s.cash} in cash')
+    print(f'-------------------------------------------------------\n           Welcome to the Python Shop \n-------------------------------------------------------')
+    print(f'*******************************************************')
+    print(f'\n')
+    print(f'=======================================================\n')
+    print(f'   Cash in the Shop: EUR {s.cash}\n')
+    print(f'')
+    print(f'   Credit/Debit card payments acceptable in this Shop') # just to inform customers that card payments are avilable
+    print(f'=======================================================\n')
+    print(f'*** STOCK AVAILABLE IN PYTHON SHOP *** ')
+    print(f'---------------------------------------')
+
     for item in s.stock:
         print_product(item.product)
         print(f'The Shop has {item.quantity} of the above')
 
-#s = create_and_stock_shop()
-#print_shop(s)
+s = create_and_stock_shop()
+print_shop(s)
 
-c = read_customer("../customer.csv")
+c = read_customer("order.csv")
 print_customer(c)
