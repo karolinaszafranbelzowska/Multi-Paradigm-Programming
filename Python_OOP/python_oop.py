@@ -92,10 +92,10 @@ class Shop:
             str += f"{item}\n"
         return str
 
-s = Shop("stock.csv")
+s = Shop('stock1.csv')
 #print(s)
 
-c = Customer("order.csv")
+c = Customer('order.csv')
 c.calculate_costs(s.stock)
 print(c)
 
