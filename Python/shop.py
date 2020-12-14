@@ -61,7 +61,11 @@ def print_product(p):
     print(f'\nProduct name: {p.name} \nProduct price: {p.price}')
 
 
-def print_customer(c):
+def print_customer(c, s):
+    # check_stock(c, s)
+    # calculate_costs(c, s)
+    total_order = 0
+
     print(f'======================================================')
     print(f'======================================================\n')
     print(f'Customer name: {c.name} \nCustomer budget: {c.budget}')
@@ -69,11 +73,63 @@ def print_customer(c):
     for item in c.shopping_list:
         print_product(item.product)
         
-        print(f'The customer wants {item.quantity} of above product')
+        print(f'The customer wants {item.quantity:.0f} of above product')
         
         cost = item.quantity * item.product.price
-        print(f'The cost to {c.name} will be EUR {cost}')
+        total_order += cost
+        print(f'The cost to {c.name} will be EUR {cost:.2f}\n')
+    
+    if total_order <= c.budget:
+        s.cash += total_order
+        print("\n")
+        print(f'Summary of the customers shopping basket:')
+        print(f'==========================================================================')
+        print(f'Customer name is {c.name} and she/he has EUR{c.budget:.2f} for the shopping.\nThe total price of the order for the customer is EUR{total_order:.2f}. \nTrasnaction complete. The customer now has {c.budget-total_order:.2f} remaining in the budget. \nCash in the Shop is now {s.cash}\n')
+        for item in c.shopping_list:
+            for prod in s.stock:
+                if item.product.name == prod.product.name:
+                    prod.quantity = prod.quantity - item.quantity
+    else:
+        print(f'Customer name is {c.name} and she/he has EUR{c.budget:.2f} for the shopping.\nThe total price of the order for the customer is EUR{total_order:.2f}. {c.name} has not enough money to complete the transaction. {s.cash}\n')
         
+# def check_stock(c, s):
+    # for item in c.shopping_list:
+        # for prod in s.stock:
+                # if item.product.name == prod.product.name and item.quantity <= prod.quantity:
+                    # print(item, item.quantity, prod.quantity)
+                    # print("OK")
+                
+                # elif item.product.name == prod.product.name and item.quantity > prod.quantity:
+                    # print(f"We do not have enough stock of {item.product.name}, please re-select products to continue with your purchase.")
+                    # main()
+
+# def calculate_costs(c, s):
+    # for shop_item in s.stock:
+        # for list_item in c.shopping_list:
+            # if (list_item.product.name == shop_item.product.name):
+                # list_item.product.price = shop_item.product.price
+
+def live_mode():
+    print("=================================================\n")
+    print("  ***Welcome to the Live Shop***   \n")
+    print("=================================================\n")
+    cust_name = input("What is your name? ") # live shop will  ask for your name
+    budget= float(input(f"What is your budget {cust_name}?: "))
+    c = Customer(cust_name, budget)
+    print("Today we can offer you products which are listed below:")
+    print_shop(s)
+    shopping_list=[]
+    additional_items = "Y"
+    while (additional_items == "Y"):
+        name = input("What would you like to buy?: ")
+        quantity = int(input("How many would you like to buy?: "))
+        p = Product(name)
+        ps = ProductStock(p, quantity)
+        c.shopping_list.append(ps)
+        additional_items = input("Would you like to order additional items? Y/N \n")
+
+    return c
+
 def print_shop(s):
     print(f'-------------------------------------------------------\n           Welcome to the Python Shop \n-------------------------------------------------------')
     print(f'*******************************************************')
@@ -90,8 +146,22 @@ def print_shop(s):
         print_product(item.product)
         print(f'The Shop has {item.quantity} of the above')
 
+def main():
+    # check_stock(c, s)
+    live_mode()
+    # calculate_costs(c, s)
+    
+    print("======================================================")
+    print("======================================================")
+    print("      Thank you for shopping in Python Shop")
+    print("======================================================")
+
+
 s = create_and_stock_shop()
 print_shop(s)
 
 c = read_customer("order.csv")
-print_customer(c)
+print_customer(c, s)
+
+if __name__ == "__main__":
+    main()
