@@ -56,29 +56,30 @@ def read_customer(file_path):
             c.shopping_list.append(ps)
         return c 
         
+def print_product(p):
+    print(f'\nPRODUCT NAME: {p.name} \nPRODUCT PRICE: {p.price}')
 
 def print_product(p):
     print(f'\nProduct name: {p.name} \nProduct price: {p.price}')
 
 
 def print_customer(c, s):
-    # check_stock(c, s)
-    # calculate_costs(c, s)
+    check_stock(c, s)
+    calculate_costs(c, s)
     total_order = 0
 
     print(f'======================================================')
     print(f'======================================================\n')
     print(f'Customer name: {c.name} \nCustomer budget: {c.budget}')
     print(f'------------------------------\n')
+
     for item in c.shopping_list:
         print_product(item.product)
-        
-        print(f'The customer wants {item.quantity:.0f} of above product')
-        
+        print(f'{c.name} wants {item.quantity:.0f} of above product')
         cost = item.quantity * item.product.price
         total_order += cost
-        print(f'The cost to {c.name} will be EUR {cost:.2f}\n')
-    
+        print(f'The cost to {c.name} will be EUR{cost:.2f}\n')
+
     if total_order <= c.budget:
         s.cash += total_order
         print("\n")
@@ -90,24 +91,24 @@ def print_customer(c, s):
                 if item.product.name == prod.product.name:
                     prod.quantity = prod.quantity - item.quantity
     else:
-        print(f'Customer name is {c.name} and she/he has EUR{c.budget:.2f} for the shopping.\nThe total price of the order for the customer is EUR{total_order:.2f}. {c.name} has not enough money to complete the transaction. {s.cash}\n')
-        
-# def check_stock(c, s):
-    # for item in c.shopping_list:
-        # for prod in s.stock:
-                # if item.product.name == prod.product.name and item.quantity <= prod.quantity:
-                    # print(item, item.quantity, prod.quantity)
-                    # print("OK")
-                
-                # elif item.product.name == prod.product.name and item.quantity > prod.quantity:
-                    # print(f"We do not have enough stock of {item.product.name}, please re-select products to continue with your purchase.")
-                    # main()
+        print(f'Customer name is {c.name} and she/he has EUR{c.budget:.2f} for the shopping.\nThe total price of the order for {c.name} is €{total_order:.2f}. {c.name} has not enough money to complete the transaction. {s.cash}\n')
 
-# def calculate_costs(c, s):
-    # for shop_item in s.stock:
-        # for list_item in c.shopping_list:
-            # if (list_item.product.name == shop_item.product.name):
-                # list_item.product.price = shop_item.product.price
+def check_stock(c, s):
+    for item in c.shopping_list:
+        for prod in s.stock:
+                if item.product.name == prod.product.name and item.quantity <= prod.quantity:
+                    print(item, item.quantity, prod.quantity)
+                    print("OK")
+                
+                elif item.product.name == prod.product.name and item.quantity > prod.quantity:
+                    print(f"We do not have enough stock of {item.product.name}, please re-select products to continue with your purchase.")
+                    main()
+
+def calculate_costs(c, s):
+    for shop_item in s.stock:
+        for list_item in c.shopping_list:
+            if (list_item.product.name == shop_item.product.name):
+                list_item.product.price = shop_item.product.price
 
 def live_mode():
     print("=================================================\n")
@@ -164,4 +165,5 @@ c = read_customer("order.csv")
 print_customer(c, s)
 
 if __name__ == "__main__":
+    
     main()
