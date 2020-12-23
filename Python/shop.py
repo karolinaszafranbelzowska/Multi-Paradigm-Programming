@@ -148,9 +148,8 @@ def print_shop(s):
         print(f'The Shop has {item.quantity} of the above')
 
 def main():
-    # check_stock(c, s)
     live_mode()
-    # calculate_costs(c, s)
+   
     
     print("======================================================")
     print("======================================================")
