@@ -72,6 +72,8 @@ class Customer:
         return cost
     
     def __repr__(self): 
+        print(f'                 *** CUSTOMER DETAILS ***')
+        print(f'---------------------------------------------------------------')
         print(f'Customer name: {self.name}')
         print(f'Customer budget: EUR {self.budget}')
 
@@ -102,6 +104,27 @@ class Shop:
                 p = Product(row[0], float(row[1]))
                 ps = ProductStock(p, float(row[2]))
                 self.stock.append(ps)
+
+    def live_mode(self,c):
+        print("=================================================\n")
+        print("  ***Welcome to the Live Shop***   \n")
+        print("=================================================\n")
+        cust_name = input("What is your name? ") # live shop will  ask for your name
+        budget= float(input(f"What is your budget {cust_name}?: "))
+        c = Customer(cust_name, budget)
+        print("Today we can offer you products which are listed below:")
+        # print_shop(s)
+        shopping_list=[]
+        additional_items = "Y"
+        while (additional_items == "Y"):
+            name = input("What would you like to buy?: ")
+            quantity = int(input("How many would you like to buy?: "))
+            p = Product(name)
+            ps = ProductStock(p, quantity)
+            c.shopping_list.append(ps)
+            additional_items = input("Would you like to order additional items? Y/N \n")
+
+        return c
     
     def __repr__(self): 
         str = ""
@@ -122,12 +145,25 @@ print(f'=======================================================\n')
 print(f'         *** STOCK AVAILABLE IN PYTHON SHOP *** ')
 print(f'-------------------------------------------------------')
 
+def main():
+    s.live_mode(c)
+   
+    
+    print("======================================================")
+    print("======================================================")
+    print("      Thank you for shopping in Python Shop")
+    print("======================================================")
 
 s = Shop('stock1.csv')
 print(s)
+# print_shop(s)
 
 c = Customer('order.csv')
 c.calculate_costs(s.stock) # s.stock - passing in the stock array which comes from the shop and it comes in as price_list
 print(c)
+
+
+if __name__ == "__main__":
+    main()
 
  
