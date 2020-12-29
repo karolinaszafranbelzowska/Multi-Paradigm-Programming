@@ -132,7 +132,7 @@ class Live_mode: # Live_mode will activate interactive mode
         print("========================================================")
         self.name = input("What is your name? ") # live Shop will ask for your name
         self.budget= float(input(f"{self.name} what is your budget: ")) # live shop will ask you for the budget
-        print("The available products are listed below.") # Stock will be printed
+        print("Today we can offer you products which are listed below:") # Stock will be printed
         print(s)
         self.shopping_list=[]
         additional_items = "Y"
